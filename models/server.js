@@ -1,6 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dbConection from '../database/config.js';
+import categoria from '../routes/categoria.js';
+import usuario from '../routes/usuario.js';
+import persona from '../routes/persona.js';
+import articulo from '../routes/articulo.js';
+import venta from '../routes/venta.js';
+import compra from '../routes/compra.js';
 
 
 class Server{
@@ -21,7 +27,12 @@ class Server{
     }
 
     routes(){
-        
+        this.app.use('/api/categ',categoria),
+        this.app.use('/api/user',usuario),
+        this.app.use('/api/pers',persona),
+        this.app.use('/api/artic',articulo),
+        this.app.use('/api/vent',venta),
+        this.app.use('/api/compr',compra)
     }
 
     async dbConexion(){
