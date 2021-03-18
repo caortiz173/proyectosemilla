@@ -13,4 +13,4 @@ const CompraSchema=mongoose.Schema({
     createdAt:{type:Date,default:Date.now}
 })
 
-export default mongoose.model('compra',CompraSchema);
+export default mongoose.model('Compra',CompraSchema);

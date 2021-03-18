@@ -8,7 +8,7 @@ const generarJWT=(id)=>{
             expiresIn:'4h'
         },(err,token)=>{
             if(err){
-                reject('No se pudo generar el Token')
+                reject('no se pudo generar el Token')
             }
             else{
                 resolve(token)
@@ -20,8 +20,8 @@ const validarJWT=async(req,res,next)=>{
 
     const token=req.header('token')
     if(! token){
-        return res.json(401).json({
-            msg:'No existe token en la petición'
+        return res.status(401).json({
+            msg:'no existe token en la petición'
         })
     }
     try {
@@ -39,6 +39,7 @@ const validarJWT=async(req,res,next)=>{
         }
 
         req.usuario=usuario
+        
         next()
     } catch (error) {
         res.status(401).json({

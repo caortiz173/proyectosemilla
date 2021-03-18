@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const PersonaSchema=mongoose.Schema({
     tipopersona:{type:String,requird:true,maxlength:50,uniqued:true},
-    nombre:{type:String,required:true,maxlength:50,unique:true},
+    nombre:{type:String,required:true,maxlength:50},
     tipodocumento:{type:String,required:true,maxlength:50},
     numdocumento:{type:String,required:true},
     direccion:{type:String,required:true},
@@ -12,4 +12,4 @@ const PersonaSchema=mongoose.Schema({
     createAt:{type:Date,default:Date.now}
 });
 
-export default mongoose.model('persona', PersonaSchema);
+export default mongoose.model('Persona', PersonaSchema);

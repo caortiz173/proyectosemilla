@@ -10,7 +10,7 @@ const existecompraById=async(id)=>{
 const existecompraByNombre=async(nombre)=>{
     const existe=await Compra.findOne({nombre})
 
-    if(! existe) throw new Error(`ya existe un compra con ese nombre: ${nombre}`)
+    if(! existe) throw new Error(`ya existe un compra con ese nombre`)
 }
 
 export {existecompraById,existecompraByNombre}

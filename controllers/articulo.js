@@ -40,7 +40,7 @@ const artic={
     
     articuloById : async(req,res) => {
         const {id}=req.params;
-        const articulo=await Articulo.findOne({_id:id})
+        const articulo=await Articulo.findById({_id:id})
         res.json({
             articulo
         })

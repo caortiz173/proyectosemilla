@@ -14,4 +14,4 @@ const VentaSchema=mogoose.Schema({
 
 })
 
-export default mogoose.model('venta',VentaSchema);
+export default mogoose.model('Venta',VentaSchema);

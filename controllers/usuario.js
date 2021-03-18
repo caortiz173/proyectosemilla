@@ -20,6 +20,33 @@ const user={
             usuario
         })
     },
+
+    login: async (req,res)=>{
+        const {email,password}=req.body;
+        const usuario=await Usuario.findOne({email})
+        if(! usuario){
+            return res.json({
+                msg:'Usuario/Password no son correctos correo'
+            })
+        }
+        if (usuario.estado===0){
+            return res.json({
+                msg:'Usuario/Password no son correctos:Estado'
+            })
+        }
+        const validarPassword=bcryptjs.compareSync(password,usuario.password)
+        if(! validarPassword){
+            return res.json({
+                msg: 'Usuario/Password no son correctos:Password'
+            })
+        }
+        const token= await generarJWT(usuario.id)
+
+        return res.json({
+            usuario, 
+            token
+        })
+    },
     
     usuarioPost: async(req,res) => {
         const {nombre,apellido,genero,email,password,rol}=req.body;
