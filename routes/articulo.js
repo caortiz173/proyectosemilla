@@ -22,7 +22,6 @@ router.get('/:id',[
 
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para su Articulo').not().isEmpty(),
-    check('nombre').custom(existearticuloByNombre),
     validarcampos
 ],artic.articuloPost);
 

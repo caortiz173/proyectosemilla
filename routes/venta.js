@@ -22,7 +22,6 @@ router.get('/:id',[
 
 router.post('/',[
     check('usuario', 'El usuario es obligatorio para su Venta').not().isEmpty(),
-    check('usuario').custom(existeventaByNombre),
     validarcampos
 ],vent.ventaPost);
 
@@ -30,7 +29,7 @@ router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeventaById),
     check('usuario').custom(existeventaByNombre)
-],vent.ventaActivar);
+],vent.ventaPut);
 
 router.put('/activar/:id',[
     check('id', 'No es un ID válido').isMongoId(),

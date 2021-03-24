@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const PersonaSchema=mongoose.Schema({
-    tipopersona:{type:String,requird:true,maxlength:50,uniqued:true},
+    tipopersona:{type:String,requird:true,maxlength:50},
     nombre:{type:String,required:true,maxlength:50},
     tipodocumento:{type:String,required:true,maxlength:50},
     numdocumento:{type:String,required:true},

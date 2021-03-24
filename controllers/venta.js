@@ -1,4 +1,5 @@
 import Venta from '../models/venta.js'
+
 const vent = {
     ventaGet: async (req, res) => {
         const { value } = req.query;

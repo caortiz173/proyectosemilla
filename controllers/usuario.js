@@ -1,5 +1,6 @@
 import Usuario from '../models/usuario.js'
 import bcryptjs from 'bcryptjs';
+import {generarJWT} from '../middlewares/validar-JWT.js'
 
 const user={
     usuarioGet: async(req, res) => {
@@ -26,7 +27,7 @@ const user={
         const usuario=await Usuario.findOne({email})
         if(! usuario){
             return res.json({
-                msg:'Usuario/Password no son correctos correo'
+                msg:'Usuario/Password no son correctos'
             })
         }
         if (usuario.estado===0){
@@ -74,7 +75,7 @@ const user={
 
     usuarioPut:async(req,res)=>{
         const {id}=req.params;
-        const {_id,email,__v,createdAt,rol,estado,password,genero,...resto}=req.body;
+        const {_id,email,__v,createdAt,rol,estado,password,...resto}=req.body;
 
         if(password){
             const salt=bcryptjs.genSaltSync();

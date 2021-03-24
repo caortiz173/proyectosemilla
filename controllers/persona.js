@@ -1,5 +1,4 @@
 import Persona from '../models/persona.js'
-import bcryptjs from 'bcryptjs';
 
 const pers={
 
@@ -26,12 +25,9 @@ const pers={
     },
 
     personaPost: async(req,res) => {
-        const {tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email}=req.body;
-        const persoan = new Usuario({tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email})
+        const {tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email,rol}=req.body;
+        const persona = new Persona({tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email,rol})
 
-        //encriptar
-        const salt=bcryptjs.genSaltSync();
-        persona.password=bcryptjs.hashSync(password,salt)
 
         await persona.save();
 
@@ -51,12 +47,7 @@ const pers={
 
     personaPut:async(req,res)=>{
         const {id}=req.params;
-        const {_id,tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email,rol,estado,__v,createdAt,...resto}=req.body;
-
-        if(password){
-            const salt=bcryptjs.genSaltSync();
-            resto.password=bcryptjs.hashSync(password,salt)   
-        }
+        const {_id,tipodocumento,numdocumento,direccion,telefono,email,rol,estado,__v,createdAt,...resto}=req.body;
 
         const persona=await Persona.findByIdAndUpdate(id,resto)
 

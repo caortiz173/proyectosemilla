@@ -1,5 +1,4 @@
 import Articulo from '../models/articulo.js'
-import bcryptjs from 'bcryptjs';
 
 const artic={
     articuloGet: async(req, res) => {
@@ -23,12 +22,9 @@ const artic={
     },
     
     articuloPost: async(req,res) => {
+        console.log(req.body)
         const {categoria,codigo,nombre,descripcion,precioventa,stock}=req.body;
         const articulo = new Articulo({categoria,codigo,nombre,descripcion,precioventa,stock})
-
-        //encriptar
-        const salt=bcryptjs.genSaltSync();
-        articulo.password=bcryptjs.hashSync(password,salt)
 
         await articulo.save();
 
@@ -49,11 +45,6 @@ const artic={
     articuloPut:async(req,res)=>{
         const {id}=req.params;
         const {_id,__v,createdAt,estado,...resto}=req.body;
-
-        if(password){
-            const salt=bcryptjs.genSaltSync();
-            resto.password=bcryptjs.hashSync(password,salt)   
-        }
 
         const articulo=await Articulo.findByIdAndUpdate(id,resto)
 

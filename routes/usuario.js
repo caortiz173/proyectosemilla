@@ -22,7 +22,6 @@ router.get('/:id',[
 
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para su Usuario').not().isEmpty(),
-    check('nombre').custom(existeusuarioByNombre),
     validarcampos
 ],user.usuarioPost);
 

@@ -1,8 +1,8 @@
-import mogoose from 'mongoose'
+import mongoose from 'mongoose'
 
-const VentaSchema=mogoose.Schema({
-    usuario:{type:String, required:true,unique:true},
-    persona:{type:String, required:true, maxlength:50},
+const VentaSchema=mongoose.Schema({
+    usuario:{type:mongoose.Types.ObjectId,ref:'Usuario',required:true},
+    persona:{type:mongoose.Types.ObjectId,ref:'Persona',required:true},
     tipoComprobante:{type:String,maxlength:20},
     serieComprobante:{type:String, maxlength:20},
     numComprobante:{type:String,maxlength:20},
@@ -14,4 +14,4 @@ const VentaSchema=mogoose.Schema({
 
 })
 
-export default mogoose.model('Venta',VentaSchema);
+export default mongoose.model('Venta',VentaSchema);

@@ -22,7 +22,6 @@ router.get('/:id',[
 
 router.post('/',[
     check('usuario', 'El usuario es obligatorio para su Compra').not().isEmpty(),
-    check('usuario').custom(existecompraByNombre),
     validarcampos
 ],compr.compraPost);
 
