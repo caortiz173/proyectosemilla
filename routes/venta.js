@@ -36,7 +36,7 @@ router.put('/activar/:id',[
     check('id').custom(existeventaById),
 ],vent.ventaActivar);
 
-router.put('desactivar/:id',[
+router.put('/desactivar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom([
     check('id', 'No es un ID válido').isMongoId(),
