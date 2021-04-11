@@ -2,7 +2,7 @@ import {Router} from 'express';
 import {pers} from '../controllers/persona.js';
 import{check} from 'express-validator';
 import {existepersonaById} from '../db-helpers/persona.js';
-import {existepersonaByNombre} from '../db-helpers/persona.js';
+
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 
@@ -21,14 +21,27 @@ router.get('/:id',[
 ],pers.personaById);
 
 router.post('/',[
-    check('nombre', 'El nombre es obligatorio para su Persona').not().isEmpty(),
+    check('nombre', 'El nombre es obligatorio para Persona').not().isEmpty(),
+
+    check('tipopersona', 'El tipo de persona es obligatorio para Persona').not().isEmpty(),
+   
+    check('tipodocumento', 'El tipo de documento es obligatorio para Persona').not().isEmpty(),
+    
+    check('numdocumento', 'El tipo de persona es obligatorio para Persona').not().isEmpty(),
+    
+    check('direccion', 'La direccion es obligatorio para Persona').not().isEmpty(),
+    
+    check('telefono', 'El telefono es obligatorio para Persona').not().isEmpty(),
+    
+    check('email', 'El email es obligatorio para Persona').not().isEmpty(),
+    
     validarcampos
 ],pers.personaPost);
 
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existepersonaById),
-    check('nombre').custom(existepersonaByNombre)
+
 ],pers.personaPut);
 
 router.put('/activar/:id',[

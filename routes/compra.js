@@ -2,7 +2,7 @@ import {Router} from 'express'
 import {compr} from '../controllers/compra.js';
 import{check} from 'express-validator';
 import {existecompraById} from '../db-helpers/compra.js';
-import {existecompraByNombre} from '../db-helpers/compra.js';
+
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 
@@ -21,14 +21,23 @@ router.get('/:id',[
 ],compr.compraById);
 
 router.post('/',[
-    check('usuario', 'El usuario es obligatorio para su Compra').not().isEmpty(),
+    check('usuario', 'El usuario es obligatorio para Compra').not().isEmpty(),
+    
+    check('persona', 'La persona es obligatorio para compra').not().isEmpty(),
+    
+    check('impuesto', 'El impuesto es obligatorio para compra').not().isEmpty(),
+    
+    check('total', 'El total es obligatorio para compra').not().isEmpty(),
+    
+    check('detalle', 'El detalle es obligatorio para compra').not().isEmpty(),
+    
     validarcampos
 ],compr.compraPost);
 
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existecompraById),
-    check('usuario').custom(existecompraByNombre)
+    
 ],compr.compraPut);
 
 router.put('/activar/:id',[

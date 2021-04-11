@@ -2,7 +2,8 @@ import {Router} from 'express'
 import {vent} from '../controllers/venta.js';
 import{check} from 'express-validator';
 import {existeventaById} from '../db-helpers/venta.js';
-import {existeventaByNombre} from '../db-helpers/venta.js';
+
+
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 
@@ -21,14 +22,23 @@ router.get('/:id',[
 ],vent.ventaById);
 
 router.post('/',[
-    check('usuario', 'El usuario es obligatorio para su Venta').not().isEmpty(),
+    check('usuario', 'El usuario es obligatorio para venta').not().isEmpty(),
+    
+    check('persona', 'La persona es obligatorio para venta').not().isEmpty(),
+    
+    check('impuesto', 'El impuesto es obligatorio para venta').not().isEmpty(),
+    
+    check('total', 'El total es obligatorio para venta').not().isEmpty(),
+  
+    check('detalle', 'El detalle es obligatorio para venta').not().isEmpty(),
+  
     validarcampos
 ],vent.ventaPost);
 
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeventaById),
-    check('usuario').custom(existeventaByNombre)
+    
 ],vent.ventaPut);
 
 router.put('/activar/:id',[

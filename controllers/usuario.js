@@ -1,4 +1,4 @@
-import Usuario from '../models/usuario.js'
+import Usuario from '../models/usuario.js';
 import bcryptjs from 'bcryptjs';
 import {generarJWT} from '../middlewares/validar-JWT.js'
 
@@ -10,7 +10,6 @@ const user={
             $or:[
                 {nombre:new RegExp(value, 'i')},
                 {apellido:new RegExp(value, 'i')},
-                {genero:new RegExp(value, 'i')},
                 {email:new RegExp(value, 'i')},
                 {password:new RegExp(value, 'i')},
                 {rol:new RegExp(value, 'i')}

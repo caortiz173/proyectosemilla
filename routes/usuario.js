@@ -2,7 +2,7 @@ import {Router} from 'express';
 import {user} from '../controllers/usuario.js';
 import{check} from 'express-validator';
 import {existeusuarioById} from '../db-helpers/usuario.js';
-import {existeusuarioByNombre} from '../db-helpers/usuario.js';
+
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 
@@ -21,7 +21,19 @@ router.get('/:id',[
 ],user.usuarioById);
 
 router.post('/',[
-    check('nombre', 'El nombre es obligatorio para su Usuario').not().isEmpty(),
+    check('nombre', 'El nombre es obligatorio para Usuario').not().isEmpty(),
+
+    check('apellido', 'El apellido es obligatorio para Usuario').not().isEmpty(),
+  
+    check('genero', 'El genero es obligatorio para Usuario').not().isEmpty(),
+  
+    check('email', 'El email es obligatorio para Usuario').not().isEmpty(),
+   
+    check('password', 'El password es obligatorio para Usuario').not().isEmpty(),
+  
+    check('rol', 'El rol es obligatorio para Usuario').not().isEmpty(),
+    
+
     validarcampos
 ],user.usuarioPost);
 
@@ -30,7 +42,7 @@ router.post('/login',user.login);
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeusuarioById),
-    check('nombre').custom(existeusuarioByNombre)
+
 ],user.usuarioPut);
 
 router.put('/activar/:id',[

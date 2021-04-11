@@ -6,15 +6,11 @@ const artic={
         const articulo=await Articulo
         .find({
             $or:[
-                {categoria:new RegExp(value, 'i')},
                 {codigo:new RegExp(value, 'i')},
                 {nombre:new RegExp(value, 'i')},
-                {descripcion:new RegExp(value, 'i')},
-                {precioventa:new RegExp(value, 'i')},
-                {stock:new RegExp(value, 'i')},
-                {estado:new RegExp(value, 'i')}
             ]
         })
+        .populate('categoria','nombre')
         .sort({'createdAt':-1})
         res.json({
             articulo

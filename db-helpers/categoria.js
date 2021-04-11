@@ -10,7 +10,7 @@ const existecategoriaById=async(id)=>{
 const existecategoriaByNombre=async(nombre)=>{
     const existe=await Categoria.findOne({nombre})
 
-    if(! existe) throw new Error(`ya existe un categoria con ese nombre`)
+    if(existe) throw new Error(`ya existe un categoria con ese nombre`)
 }
 
 export {existecategoriaById,existecategoriaByNombre}

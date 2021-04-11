@@ -6,6 +6,7 @@ const UsuarioSchema=mongoose.Schema({
     genero:{type:String,required:true,maxlength:50},
     email:{type:String,required:true,maxlength:50,unique:true},
     password:{type:String,required:true},
+    rol:{type:String,maxlength:50, required:true},
     estado:{type:Number,default:1},
     createdAt:{type:Date,default:Date.now},
 });

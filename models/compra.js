@@ -6,9 +6,14 @@ const CompraSchema=mongoose.Schema({
     tipoComprobante:{type:String,maxlength:50},
     serieComprobante:{type:String, maxlength:50},
     numComprobante:{type:String,maxlength:20},
-    impuesto:{type:String, maxlength:50},
-    total:{type:String,maxlength:15},
-    detalles:[{type:Array,maxlength:70,required:true,unique:true}],
+    impuesto:{type:Number, maxlength:50, required:true},
+    total:{type:Number,maxlength:15, required:true},
+    detalles:[{
+        _id: {type:String,required:true},
+        articulo: {type:String,required:true},
+        cantidad: {type:Number,required:true},
+        precio: {type:Number,required:true},
+    }],
     estado:{type:Number,default:1},
     createdAt:{type:Date,default:Date.now}
 })

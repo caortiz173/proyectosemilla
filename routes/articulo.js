@@ -3,6 +3,8 @@ import {artic} from '../controllers/articulo.js';
 import{check} from 'express-validator';
 import {existearticuloById} from '../db-helpers/articulo.js';
 import {existearticuloByNombre} from '../db-helpers/articulo.js';
+import {existearticuloByCodigo} from '../db-helpers/articulo.js';
+
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 
@@ -21,7 +23,19 @@ router.get('/:id',[
 ],artic.articuloById);
 
 router.post('/',[
-    check('nombre', 'El nombre es obligatorio para su Articulo').not().isEmpty(),
+    check('nombre', 'El nombre es obligatorio para Articulo').not().isEmpty(),
+    check('nombre').custom(existearticuloByNombre),
+    check('categoria', 'La categoria es obligatorio para Articulo').not().isEmpty(),
+ 
+    check('codigo', 'El codigo es obligatorio para Articulo').not().isEmpty(),
+    check('codigo').custom(existearticuloByCodigo),
+    
+    check('descripcion', 'La descripcion es obligatorio para Articulo').not().isEmpty(),
+  
+    check('precioventa', 'El precio venta es obligatorio para Articulo').not().isEmpty(),
+    
+    check('stock', 'El stock es obligatorio para Articulo').not().isEmpty(),
+  
     validarcampos
 ],artic.articuloPost);
 

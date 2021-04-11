@@ -21,7 +21,7 @@ router.get('/:id',[
 ],categ.categoriaById);
 
 router.post('/',[
-    check('nombre', 'El nombre es obligatorio para su Categoriaz').not().isEmpty(),
+    check('nombre', 'El nombre es obligatorio para Categoria').not().isEmpty(),
     check('nombre').custom(existecategoriaByNombre),
     validarcampos
 ],categ.categoriaPost);

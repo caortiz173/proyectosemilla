@@ -11,10 +11,7 @@ const pers={
                 {nombre:new RegExp(value, 'i')},
                 {tipodocumento:new RegExp(value, 'i')},
                 {numdocumento:new RegExp(value, 'i')},
-                {direccion:new RegExp(value, 'i')},
-                {telefono:new RegExp(value, 'i')},
-                {email:new RegExp(value, 'i')},
-                {rol:new RegExp(value, 'i')}
+                
             ]
         })
 
@@ -25,8 +22,8 @@ const pers={
     },
 
     personaPost: async(req,res) => {
-        const {tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email,rol}=req.body;
-        const persona = new Persona({tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email,rol})
+        const {tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email}=req.body;
+        const persona = new Persona({tipopersona,nombre,tipodocumento,numdocumento,direccion,telefono,email})
 
 
         await persona.save();

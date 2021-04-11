@@ -7,11 +7,7 @@ const existeventaById=async(id)=>{
 
 }
 
-const existeventaByNombre=async(nombre)=>{
-    const existe=await Venta.findOne({nombre})
 
-    if(! existe) throw new Error(`ya existe un venta con ese nombre`)
-
+export {
+    existeventaById
 }
-
-export {existeventaById,existeventaByNombre}

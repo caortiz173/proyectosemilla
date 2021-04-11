@@ -7,11 +7,8 @@ const existeusuarioById=async(id)=>{
 
 }
 
-const existeusuarioByNombre=async(nombre)=>{
-    const existe=await Usuario.findOne({nombre})
 
-    if(! existe) throw new Error(`ya existe un usuario con ese nombre`)
+export {
+    existeusuarioById
 
 }
-
-export {existeusuarioById,existeusuarioByNombre}
