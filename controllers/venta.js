@@ -1,104 +1,109 @@
-import Venta from '../models/venta.js'
-import Articulo from '../models/articulo.js'
-
-
+import Venta from "../models/venta.js";
+import modificar from "../db-helpers/modificar.js";
 
 const vent = {
-    ventaGet: async (req, res) => {
-        const { value } = req.query;
-        const venta = await Venta
-            .find({
-                $or: [
-                    
-                    { tipoComprobante: new RegExp(value, 'i') },
-                    { numComprobante: new RegExp(value, 'i') },
+  ventaGet: async (req, res) => {
+    const { value } = req.query;
+    const venta = await Venta.find({
+      $or: [
+        { tipoComprobante: new RegExp(value, "i") },
+        { numComprobante: new RegExp(value, "i") },
+      ],
+    })
+      .populate("usuarios", ["nombre", "email"])
+      .populate("personas", ["nombre", "tipoDocumento"])
+      .sort({ createdAt: -1 });
+    res.json({
+      venta,
+    });
+  },
 
-                ]
-            })
-            .populate('usuarios', ['nombre', 'email'])
-            .populate('personas', ['nombre', 'tipoDocumento'])
-            .sort({ 'createdAt': -1 })
-        res.json({
-            venta
-        })
-    },
+  ventaPost: async (req, res) => {
+    const {
+      usuario,
+      persona,
+      tipoComprobante,
+      serieComprobante,
+      numComprobante,
+      impuesto,
+      total,
+      detalles,
+    } = req.body;
+    const venta = new Venta({
+      usuario,
+      persona,
+      tipoComprobante,
+      serieComprobante,
+      numComprobante,
+      impuesto,
+      total,
+      detalles,
+    });
 
-    aumentarStock:async(id,cantidad)=>{
-        let {stock}=await Articulo.findById(id);
-        stock=parseInt(stock)+parseInt(cantidad)
+    venta.total = venta.detalles.reduce(
+      (acc, articulo) =>
+        acc + (articulo.cantidad * articulo.precio - articulo.descuento),
+      0
+    );
+    venta.impuesto = venta.total * 0.19;
 
-        await Articulo.findByIdAndUpdate({id},stock)
-    },
+    await venta.save();
 
-    disminuirStock: async(id,cantidad)=>{
-        let {stock}=await Articulo.findById(id);
-        stock=parseInt(stock)-parseInt(cantidad)
+    detalles.map((articulo) => modificar.disminuirStock(articulo._id, articulo.cantidad));
 
-        await Articulo.findByIdAndUpdate({id},stock)
-    },
+    res.json({
+      venta,
+    });
+  },
+  ventaById: async (req, res) => {
+    const { id } = req.params;
+    const venta = await Venta.findById({ _id: id });
+    res.json({
+      venta,
+    });
+  },
+  ventaPut: async (req, res) => {
+    const { id } = req.params;
+    const { _id, createdAt, __v, estado, ...resto } = req.body;
 
-    ventaPost: async (req, res) => {
-        console.log(req.body)
-        const { usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuesto, total, detalles } = req.body;
-        const venta = new Venta({ usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuesto, total, detalles })
+    const venta = await Venta.findByIdAndUpdate(id, resto);
 
-        venta.total= venta.detalles.reduce((acc, articulo)=> acc + ((articulo.cantidad*articulo.precio)- articulo.descuento),0)
-        venta.impuesto= venta.total*0.19
+    res.json({
+      venta,
+    });
+  },
+  ventaActivar: async (req, res) => {
+    const { id } = req.params;
+    const venta = await Venta.findByIdAndUpdate(id, { estado: 1 });
 
-        await venta.save();
+    venta.detalles.map((articulo) =>
+      modificar.disminuirStock(articulo._id, articulo.cantidad)
+    );
 
-        detalles.map((articulo)=> disminuirStock(articulo._id,articulo.cantidad))
+    res.json({
+      venta,
+    });
+  },
+  ventaDesactivar: async (req, res) => {
+    const { id } = req.params;
+    const venta = await Venta.findByIdAndUpdate(id, { estado: 0 });
 
-        res.json({
-            venta
-        })
+    venta.detalles.map((articulo) =>
+      modificar.aumentarStock(articulo._id, articulo.cantidad)
+    );
 
-    },
-    ventaById: async (req, res) => {
-        const { id } = req.params;
-        const venta = await Venta.findById({ _id: id })
-        res.json({
-            venta
-        })
-    },
-    ventaPut: async (req, res) => {
-        const { id } = req.params;
-        const { _id, createdAt, __v, estado, ...resto } = req.body;
+    res.json({
+      venta,
+    });
+  },
+  ventaDelete: async (req, res) => {
+    const { id } = req.params;
+    const venta = await Venta.findByIdAndDelete(id);
 
-        const venta = await Venta.findByIdAndUpdate(id, resto)
-
-        res.json({
-            venta
-        })
-    },
-    ventaActivar: async (req, res) => {
-        const { id } = req.params;
-        const venta = await Venta.findByIdAndUpdate(id, { estado: 1 })
-
-        venta.detalles.map((articulo)=> disminuirStock(articulo._id,articulo.cantidad))
-
-        res.json({
-            venta
-        })
-    },
-    ventaDesactivar: async (req, res) => {
-        const { id } = req.params;
-        const venta = await Venta.findByIdAndUpdate(id, { estado: 0 })
-
-        venta.detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
-
-        res.json({
-            venta
-        })
-    },
-    ventaDelete: async (req, res) => {
-        const { id } = req.params;
-        const venta = await Venta.findByIdAndDelete(id)
-
-        res.json({
-            venta
-        })
-    }
-}
+    res.json({
+      venta,
+    });
+  },
+};
 
 export { vent };
