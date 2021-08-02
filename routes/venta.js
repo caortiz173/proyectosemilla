@@ -30,7 +30,7 @@ router.post('/',[
     
     check('total', 'El total es obligatorio para venta').not().isEmpty(),
   
-    check('detalle', 'El detalle es obligatorio para venta').not().isEmpty(),
+    check('detalles', 'El detalle es obligatorio para venta').not().isEmpty(),
   
     validarcampos
 ],vent.ventaPost);

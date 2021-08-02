@@ -1,5 +1,5 @@
 import Compra from '../models/compra.js';
-import Articulo from '../models/articulo.js'
+import modificar from "../db-helpers/modificar.js";
 
 
 const compr = {
@@ -13,27 +13,14 @@ const compr = {
                    
                 ]
             })
-            .populate('usuarios', ['nombre', 'email'])
-            .populate('personas', ['nombre', 'tipoDocumento'])
+            .populate('usuario', ['nombre', 'email'])
+            .populate('persona', ['nombre', 'tipoDocumento'])
             .sort({ 'createdAt': -1 })
         res.json({
-            compra
+            compra,
         })
     },
 
-    aumentarStock:async(id,cantidad)=>{
-        let {stock}=await Articulo.findById(id);
-        stock=parseInt(stock)+parseInt(cantidad)
-
-        await Articulo.findByIdAndUpdate({id},stock)
-    },
-
-    disminuirStock: async(id,cantidad)=>{
-        let {stock}=await Articulo.findById(id);
-        stock=parseInt(stock)-parseInt(cantidad)
-
-        await Articulo.findByIdAndUpdate({id},stock)
-    },
 
     compraPost: async (req, res) => {
         console.log(req.body)
@@ -41,11 +28,11 @@ const compr = {
         const compra = new Compra({ usuario,persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles})
 
         compra.total= compra.detalles.reduce((acc, articulo)=> acc + (articulo.cantidad*articulo.precio),0)
-        compra.ipuesto= compra.total*0.19
-
+        compra.impuesto= compra.total*0.19
+ 
         await compra.save();
 
-        detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
+        compra.detalles.map((articulo)=> modificar.aumentarStock(articulo._id,articulo.cantidad))
 
         res.json({
             compra
@@ -54,7 +41,11 @@ const compr = {
     },
     compraById: async (req, res) => {
         const { id } = req.params;
-        const compra = await Compra.findById({ _id: id })
+        const compra = await Compra
+        .findOne({ _id: id })
+        .populate("usuario", ["nombre", "email"])
+        .populate("persona", ["nombre", "tipodocumento"]);
+
         res.json({
             compra
         })
@@ -66,14 +57,14 @@ const compr = {
         const compra = await Compra.findByIdAndUpdate(id, resto)
 
         res.json({
-            compra
+            compra,
         })
     },
     compraActivar: async (req, res) => {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 1 })
 
-        detalles.map((articulo)=> aumentarStock(articulo._id,articulo.cantidad))
+        compra.detalles.map((articulo)=> modificar.aumentarStock(articulo._id,articulo.cantidad))
 
         res.json({
             compra
@@ -84,7 +75,7 @@ const compr = {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 0 })
 
-        detalles.map((articulo)=> disminuirStock(articulo._id,articulo.cantidad))
+        compra.detalles.map((articulo)=> modificar.disminuirStock(articulo._id,articulo.cantidad))
 
         res.json({
             compra

@@ -29,7 +29,7 @@ router.post('/',[
     
     check('total', 'El total es obligatorio para compra').not().isEmpty(),
     
-    check('detalle', 'El detalle es obligatorio para compra').not().isEmpty(),
+    check('detalles', 'El detalle es obligatorio para compra').not().isEmpty(),
     
     validarcampos
 ],compr.compraPost);

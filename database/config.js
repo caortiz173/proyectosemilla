@@ -9,10 +9,9 @@ const dbConection =async()=>{
         useCreateIndex: true,
         useFindAndModify: false
     });
-    
     console.log('Base de datos online');
-
-    }catch (error) {
+    }
+    catch (error) {
         throw new Error('Error al iniciar la DB')
     }  
 
