@@ -4,6 +4,7 @@ import{check} from 'express-validator';
 import {existearticuloById} from '../db-helpers/articulo.js';
 import {existearticuloByNombre} from '../db-helpers/articulo.js';
 import {existearticuloByCodigo} from '../db-helpers/articulo.js';
+import {existearticuloByCategoria} from '../db-helpers/articulo.js';
 
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
@@ -28,7 +29,9 @@ router.post('/',[
  
     check('codigo', 'El codigo es obligatorio para Articulo').not().isEmpty(),
     check('codigo').custom(existearticuloByCodigo),
-    
+    check('categoria', 'La categoria es obligatorio para Articulo').not().isEmpty(),
+    check('categoria').custom(existearticuloByCategoria),
+
     check('descripcion', 'La descripcion es obligatorio para Articulo').not().isEmpty(),
   
     check('precioventa', 'El precio venta es obligatorio para Articulo').not().isEmpty(),
