@@ -19,11 +19,6 @@ const existearticuloByCodigo=async(codigo)=>{
     if(existe) throw new Error(`ya existe un articulo con ese codigo`)
 }
 
-const existearticuloByCategoria=async(categoria)=>{
-    const existe=await Articulo.findOne({categoria})
-
-    if(existe) throw new Error(`ya existe una categoria`)
-}
 
 
 
@@ -31,5 +26,4 @@ export {
     existearticuloById,
     existearticuloByNombre,
     existearticuloByCodigo,
-    existearticuloByCategoria
 }
