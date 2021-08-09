@@ -5,7 +5,6 @@ import {existepersonaById} from '../db-helpers/persona.js';
 
 import {validarcampos} from '../middlewares/validarcampos.js';
 import {validarJWT} from '../middlewares/validar-JWT.js';
-import {validarArchivoSubir} from '../middlewares/validarArchivoSubir';
 
 const router=Router();
 
@@ -39,13 +38,6 @@ router.post('/',[
     validarcampos
 ],pers.personaPost);
 
-router.post('/upload/:id',[
-    validarJWT,
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existeId),
-    validarCampos,
-    validarArchivoSubir
-],personas.personaCargarArchivo);
 
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),

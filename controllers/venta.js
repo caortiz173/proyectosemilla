@@ -10,8 +10,8 @@ const vent = {
         { numComprobante: new RegExp(value, "i") },
       ],
     })
-      .populate("usuario", ["nombre", "email"])
-      .populate("persona", ["nombre", "tipoDocumento"])
+      .populate('usuario', ['nombre', 'email'])
+      .populate('persona', ['nombre', 'tipoDocumento'])
       .sort({ createdAt: -1 });
     res.json({
       venta,

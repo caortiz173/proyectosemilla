@@ -9,7 +9,6 @@ const PersonaSchema=mongoose.Schema({
     telefono:{type:String,required:true,maxlength:20},
     email:{type:String,required:true,maxlength:50,unique:true},
     estado:{type:Number,default:1},
-    foto:{type:String},
     createAt:{type:Date,default:Date.now}  
 });
 

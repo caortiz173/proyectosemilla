@@ -9,7 +9,7 @@ const CompraSchema=mongoose.Schema({
     impuesto:{type:Number, maxlength:50},
     total:{type:Number,maxlength:15},
     detalles:[{
-        _id: {type:String,maxlength:15},
+        _id: {type:String},
         articulo: {type:String,maxlength:15},
         cantidad: {type:Number,maxlength:50},
         precio: {type:Number,maxlength:50},
