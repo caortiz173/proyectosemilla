@@ -25,14 +25,10 @@ router.post('/',[
     check('usuario', 'El usuario es obligatorio para venta').not().isEmpty(),
     
     check('persona', 'La persona es obligatorio para venta').not().isEmpty(),
-    
-    check('impuesto', 'El impuesto es obligatorio para venta').not().isEmpty(),
-    
-    check('total', 'El total es obligatorio para venta').not().isEmpty(),
   
     check('detalles', 'El detalle es obligatorio para venta').not().isEmpty(),
   
-    validarcampos
+    validarcampos 
 ],vent.ventaPost);
 
 router.put('/:id',[
