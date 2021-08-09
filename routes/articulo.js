@@ -25,7 +25,6 @@ router.get('/:id',[
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para Articulo').not().isEmpty(),
     check('nombre').custom(existearticuloByNombre),
-    check('categoria', 'La categoria es obligatorio para Articulo').not().isEmpty(),
  
     check('codigo', 'El codigo es obligatorio para Articulo').not().isEmpty(),
     check('codigo').custom(existearticuloByCodigo),
