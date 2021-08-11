@@ -4,7 +4,7 @@
   "description": "Sistema de compraventa ADSI 2062416",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "node app.js"
   },
   "type": "module",
   "author": "CAMILO ANDRES ORTIZ RINCON",
